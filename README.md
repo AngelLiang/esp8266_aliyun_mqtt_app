@@ -7,8 +7,8 @@
 
 ## 开发环境
 
-- Windows 10 x64
-- [安信可 ESP 系列一体化开发环境](http://wiki.ai-thinker.com/ai_ide_install)
+- Windows
+- [安信可 ESP 系列一体化开发环境](http://wiki.ai-thinker.com/ai_ide_install)（基于 Windows + Cygwin + Eclipse + GCC 的综合 IDE 环境）
 - ESP8266_NONOS_SDK-2.2.1（理论上支持SDK 2.0+）
 
 
@@ -82,6 +82,7 @@ eagle.irom0text.bin---->0x10000
 ## 其他补充
 
 - 如果想要学习使用ESP8266 mqtt原始app，可以参考我这篇[博客](https://blog.csdn.net/yannanxiu/article/details/53088534)
-
-
-
+- 安信可IDE开发环境资料：
+  - 如何安装安信可一体化开发环境：http://wiki.ai-thinker.com/ai_ide_install
+  - 如何使用安信可 ESP 系列一体化开发环境：http://wiki.ai-thinker.com/ai_ide_use
+  - 如何为 ESP 系列模组烧录固件：http://wiki.ai-thinker.com/esp_download
