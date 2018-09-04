@@ -184,7 +184,7 @@ void user_init(void) {
 	// 计划在生成mqtt密码的时候使用sntp生成时间戳，目前暂时没用到
 	user_sntp_init();
 
-	/* 测试 hmacmd5 生成mqtt passwrod */
+	// 测试 hmacmd5 生成mqtt passwrod
 	//test_hmac_md5();
 
 	aliyun_mqtt_init();
