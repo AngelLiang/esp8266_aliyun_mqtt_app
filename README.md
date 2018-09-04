@@ -81,9 +81,13 @@ eagle.irom0text.bin---->0x10000
 - 关于wifi连接的状态led灯
 
     本项目使用了GPIO0作为wifi状态led灯，移植本项目时请留意。
+
     如果wifi连接成功，则保持led常亮（输出低电平）；否则进行闪烁。
 
+    可在这个位置进行引脚修改：`include/mqtt/wifi_config.h`
+
     ```C
+    // ...
     /* wifi led 引脚配置 */
     #define WIFI_STATUS_LED_PIN         0
     ```
