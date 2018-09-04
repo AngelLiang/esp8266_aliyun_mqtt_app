@@ -21,6 +21,7 @@
 
 // 是否使用随机生成的timestamp
 //#define RAMDOM_TIMESTAMP
+
 /******************************************************************************/
 // 以下不需要变动
 #define DOMAIN "iot-as-mqtt.cn-shanghai.aliyuncs.com"
@@ -45,7 +46,7 @@ typedef struct {
 #define TIMESTAMP_STR	"789"
 
 /******************************************************************************/
-/* 接口 */
+/* interface */
 extern void aliyun_mqtt_init(void);
 extern void test_hmac_md5(void);
 

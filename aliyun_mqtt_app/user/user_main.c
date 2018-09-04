@@ -178,9 +178,10 @@ init_done_cb_init(void) {
 }
 
 void user_init(void) {
+	uart_init(BIT_RATE_74880, BIT_RATE_74880);
 	//uart_init(BIT_RATE_115200, BIT_RATE_115200);
 
-	// 暂时没用到sntp，可删掉
+	// 计划在生成mqtt密码的时候使用sntp生成时间戳，目前暂时没用到
 	user_sntp_init();
 
 	/* 测试 hmacmd5 生成mqtt passwrod */

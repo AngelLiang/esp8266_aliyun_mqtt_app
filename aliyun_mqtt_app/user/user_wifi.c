@@ -72,7 +72,7 @@ wifi_led_timer_cb(void *arg) {
 	//wifi_get_ip_info(STATION_IF, &g_ipConfig);
 	u8 status = wifi_station_get_connect_status();
 
-	// 如果wifi连接成功，保持led常亮（低电平）
+	// 如果wifi连接成功，保持led常亮（输出低电平）
 	// 否则，led闪烁
 	// 闪烁间隔由 WIFI_LED_INTERVAL 确定
 	if (status == STATION_GOT_IP) {

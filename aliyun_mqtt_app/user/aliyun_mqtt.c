@@ -80,7 +80,13 @@ gen_mqtt_password(u8 input_timestamp_3[], u8 output_pass[]) {
 void ICACHE_FLASH_ATTR
 aliyun_mqtt_init(void) {
 
-#ifdef STNP_TIMESTAMP
+/* TODO:
+ * 三种生成timestamp的方式，目前默认是写死在代码里。
+ * - SNTP_TIMESTAMP：使用sntp生成，暂时未实现
+ * - RAMDOM_TIMESTAMP：使用随机函数生成
+ * - defalut：使用宏定义方式
+ */
+#ifdef SNTP_TIMESTAMP
 	u8 *timestamp_str = TIMESTAMP_STR;
 #elif defined(RAMDOM_TIMESTAMP)
 	u8 timestamp_str[4] = { 0 };
@@ -90,22 +96,19 @@ aliyun_mqtt_init(void) {
 #else
 	u8 *timestamp_str = TIMESTAMP_STR;
 #endif
+
 	debug("timestamp_str:%s\r\n", timestamp_str);
 
 	// mqtt host
 	os_strncpy(g_aliyun_mqtt.host, MQTT_HOST, BUF_SIZE);
 	// mqtt port
 	g_aliyun_mqtt.port = MQTT_PORT;
-
-	// mqtt client id
-	os_sprintf(g_aliyun_mqtt.client_id, MQTT_CLIENT_ID, timestamp_str);	// 拼接timestamp
-
+	// mqtt client id，拼接timestamp
+	os_sprintf(g_aliyun_mqtt.client_id, MQTT_CLIENT_ID, timestamp_str);
 	// mqtt username
 	os_strncpy(g_aliyun_mqtt.username, MQTT_USERNAME, BUF_SIZE);
-
 	// mqtt password
 	gen_mqtt_password(timestamp_str, g_aliyun_mqtt.password);
-
 	// mqtt keepalive
 	g_aliyun_mqtt.keepalive = 120;
 

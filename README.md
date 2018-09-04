@@ -60,24 +60,33 @@ eagle.irom0text.bin---->0x10000
 
 - 关于串口
 
-    ESP8266串口打印默认为74800bps，如果串口工具没有74800bps也可以选择76800bps。
+    ESP8266串口打印默认为74880bps，如果串口工具没有74880bps也可以选择76800bps。
 
     或者修改下`user/user_main.c/user_init()`的代码：
 
     ```C
     // ...
     void user_init(void) {
-	    uart_init(BIT_RATE_115200, BIT_RATE_115200);
+        uart_init(BIT_RATE_115200, BIT_RATE_115200);
         //...
     }
     ```
 
-- 关于中文乱码
+- 关于源码文件中的中文乱码
 
     因为源码文件编码默认为UTF-8，而Windows Eclipse IDE默认为GBK，所以可能需要设置一下：
 
     菜单栏Window -> Preferences -> General -> Workspace -> 面板Text file encoding -> 选择UTF-8 -> OK
 
+- 关于wifi连接的状态led灯
+
+    本项目使用了GPIO0作为wifi状态led灯，移植本项目时请留意。
+    如果wifi连接成功，则保持led常亮（输出低电平）；否则进行闪烁。
+
+    ```C
+    /* wifi led 引脚配置 */
+    #define WIFI_STATUS_LED_PIN         0
+    ```
 
 ## 其他补充
 
