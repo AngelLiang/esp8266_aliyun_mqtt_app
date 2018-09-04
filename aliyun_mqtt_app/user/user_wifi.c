@@ -13,7 +13,7 @@
 
 //***********************************************************************/
 
-// 如果不需要debug，则注释
+// 如果不需要debug，则注释下面的语句
 #define DEBUG	1
 
 // 如果连接成功，每隔 2s检查一次wifi状态
@@ -88,8 +88,7 @@ wifi_status_led_init(void) {
 	debug("[INFO] WiFi_LED_STATUS_TIMER_ENABLE\r\n");
 	os_timer_disarm(&g_wifi_smartconfig_timer);
 	os_timer_setfn(&g_wifi_smartconfig_timer,
-			(os_timer_func_t *) wifi_led_timer_cb,
-			NULL);
+			(os_timer_func_t *) wifi_led_timer_cb, NULL);
 	os_timer_arm(&g_wifi_smartconfig_timer, WIFI_LED_INTERVAL, 1);
 
 }
@@ -224,7 +223,7 @@ wifi_check_timer_cb(void) {
 /*
  * function: wifi_check_init
  * parameter: u16 interval - 定时回调时间
- * description: wifi检查初始化״̬
+ * description: wifi检查初始化
  */
 void ICACHE_FLASH_ATTR
 wifi_check_init(u16 interval) {
@@ -239,8 +238,7 @@ wifi_check_init(u16 interval) {
 	wifi_set_event_handler_cb(wifi_handle_event_cb);
 
 	os_timer_disarm(&g_wifi_check_timer);
-	os_timer_setfn(&g_wifi_check_timer, (os_timer_func_t *) wifi_check_timer_cb,
-	NULL);
+	os_timer_setfn(&g_wifi_check_timer, (os_timer_func_t *) wifi_check_timer_cb, NULL);
 	os_timer_arm(&g_wifi_check_timer, interval, 0);
 }
 
@@ -313,6 +311,8 @@ user_set_station_config(u8* ssid, u8* password) {
 
 /*
  * function: wifi_connect
+ * parameter: WifiCallback cb - wifi回调函数
+ * return: void
  */
 void ICACHE_FLASH_ATTR
 wifi_connect(WifiCallback cb) {

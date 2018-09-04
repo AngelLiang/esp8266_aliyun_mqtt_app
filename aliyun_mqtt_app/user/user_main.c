@@ -60,6 +60,7 @@ void mqttConnectedCb(uint32_t *args) {
 	MQTT_Subscribe(client, "/"PRODUCT_KEY"/"DEVICE_NAME"/get", 0);
 
 	/*
+	 * MQTT_Publish函数参数说明
 	 * @param  client: 	    MQTT_Client reference
 	 * @param  topic: 		string topic will publish to
 	 * @param  data: 		buffer data send point to
@@ -67,8 +68,7 @@ void mqttConnectedCb(uint32_t *args) {
 	 * @param  qos:		    qos
 	 * @param  retain:      retain
 	 */
-	MQTT_Publish(client, "/"PRODUCT_KEY"/"DEVICE_NAME"/update", "hello", 6, 0,
-			0);
+	MQTT_Publish(client, "/"PRODUCT_KEY"/"DEVICE_NAME"/update", "hello", 6, 0, 0);
 }
 
 void mqttDisconnectedCb(uint32_t *args) {
@@ -143,9 +143,11 @@ user_rf_cal_sector_set(void) {
 	return rf_cal_sec;
 }
 
+/*****************************************************************************/
+
 /*
  * function: user_sntp_init
- * description: sntp初始化
+ * description: sntp初始化，暂时用不上
  */
 void ICACHE_FLASH_ATTR
 user_sntp_init(void) {
@@ -153,33 +155,37 @@ user_sntp_init(void) {
 	sntp_setservername(0, "0.cn.pool.ntp.org");
 	sntp_setservername(1, "1.cn.pool.ntp.org");
 	sntp_setservername(2, "2.cn.pool.ntp.org");
-	// sntp init
 	sntp_init();
 }
 
 void ICACHE_FLASH_ATTR
 init_done_cb_init(void) {
-	//print_chip_info();
+
+#ifdef SMARTCONFIG_ENABLE
 
 	/*
 	 * smartconfig_connect 只能在 init_done_cb_init 调用才正常
 	 * 先进行smartconfig，没有配网信息则自动连接上次的wifi
 	 */
-#ifdef SMARTCONFIG_ENABLE
 	smartconfig_connect(wifiConnectCb);
-#else
-	/* OR */
+
+#else	/* OR */
+
+	// 直接使用 WIFI_SSID 和 WIFI_PASS 宏定义连接wifi
 	wifi_connect(wifiConnectCb);
-#endif
+
+#endif /* SMARTCONFIG_ENABLE */
 }
 
 void user_init(void) {
 	//uart_init(BIT_RATE_115200, BIT_RATE_115200);
 
+	// 暂时没用到sntp，可删掉
 	user_sntp_init();
 
 	/* 测试 hmacmd5 生成mqtt passwrod */
 	//test_hmac_md5();
+
 	aliyun_mqtt_init();
 
 	//MQTT_InitConnection(&mqttClient, "192.168.11.122", 1880, 0);
@@ -191,8 +197,10 @@ void user_init(void) {
 			g_aliyun_mqtt.keepalive, 1);
 
 	// 遗愿消息
+	// 阿里云mqtt不需要设置遗愿消息
 	//MQTT_InitLWT(&mqttClient, "/lwt", "offline", 0, 0);
 
+	// 设置mqtt的回调函数
 	MQTT_OnConnected(&mqttClient, mqttConnectedCb);
 	MQTT_OnDisconnected(&mqttClient, mqttDisconnectedCb);
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
