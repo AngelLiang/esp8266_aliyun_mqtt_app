@@ -10,6 +10,7 @@
 - Windows 10
 - [安信可 ESP 系列一体化开发环境](http://wiki.ai-thinker.com/ai_ide_install)（基于 Windows + Cygwin + Eclipse + GCC 的综合 IDE 环境）
 - ESP8266_NONOS_SDK-2.2.1（理论上支持SDK 2.0+）
+- ESP8266 4MB(32Mbit) Flash
 
 
 ## 使用步骤
