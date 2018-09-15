@@ -9,14 +9,14 @@
 /* 从阿里云平台获取的三元组 */
 
 #if 0
-#define PRODUCT_KEY 	"PRODUCT_KEY"
-#define DEVICE_NAME 	"DEVICE_NAME"
-#define DEVICE_SECRET	"DEVICE_SECRET"
+	#define PRODUCT_KEY 	"PRODUCT_KEY"
+	#define DEVICE_NAME 	"DEVICE_NAME"
+	#define DEVICE_SECRET	"DEVICE_SECRET"
 #else	// 从 user_config.h 导入
-#include "user_config.h"
+	#include "user_config.h"
 #endif
 
-// 用户自定义device id
+// 用户自定义的device id
 #define DEVICE_ID		PRODUCT_KEY"."DEVICE_NAME
 
 // 是否使用随机生成的timestamp

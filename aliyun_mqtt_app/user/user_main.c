@@ -1,31 +1,5 @@
-/* main.c -- MQTT client example
- *
- * Copyright (c) 2014-2015, Tuan PM <tuanpm at live dot com>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * * Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * * Neither the name of Redis nor the names of its contributors may be used
- * to endorse or promote products derived from this software without
- * specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+/*
+ * user_main.c
  */
 
 #include "ets_sys.h"
@@ -33,17 +7,24 @@
 #include "gpio.h"
 #include "user_interface.h"
 #include "mem.h"
-
 #include "driver/uart.h"
 
 #include "mqtt/mqtt.h"
 #include "mqtt/debug.h"
 
 #include "user_config.h"
-#include "user_wifi.h"
 #include "aliyun_mqtt.h"
+#include "user_wifi.h"
 
 MQTT_Client mqttClient;
+
+// topic
+#define BASE_TOPIC   "/"PRODUCT_KEY"/"DEVICE_NAME
+#define GET_TOPIC     BASE_TOPIC"/get"
+#define UPDATE_TOPIC  BASE_TOPIC"/update"
+
+/*****************************************************************************/
+// 以下是esp8266例程里的mqtt示例，只改动了小部分。
 
 void wifiConnectCb(uint8_t status) {
 	if (status == STATION_GOT_IP) {
@@ -57,7 +38,7 @@ void mqttConnectedCb(uint32_t *args) {
 	MQTT_Client* client = (MQTT_Client*) args;
 	INFO("MQTT: Connected\r\n");
 
-	MQTT_Subscribe(client, "/"PRODUCT_KEY"/"DEVICE_NAME"/get", 0);
+	MQTT_Subscribe(client, GET_TOPIC, 0);
 
 	/*
 	 * MQTT_Publish函数参数说明
@@ -68,7 +49,7 @@ void mqttConnectedCb(uint32_t *args) {
 	 * @param  qos:		    qos
 	 * @param  retain:      retain
 	 */
-	MQTT_Publish(client, "/"PRODUCT_KEY"/"DEVICE_NAME"/update", "hello", 6, 0, 0);
+	MQTT_Publish(client, UPDATE_TOPIC, "hello", 6, 0, 0);
 }
 
 void mqttDisconnectedCb(uint32_t *args) {
@@ -145,44 +126,9 @@ user_rf_cal_sector_set(void) {
 
 /*****************************************************************************/
 
-/*
- * function: user_sntp_init
- * description: sntp初始化，暂时用不上
- */
-void ICACHE_FLASH_ATTR
-user_sntp_init(void) {
-	// set sntp server
-	sntp_setservername(0, "0.cn.pool.ntp.org");
-	sntp_setservername(1, "1.cn.pool.ntp.org");
-	sntp_setservername(2, "2.cn.pool.ntp.org");
-	sntp_init();
-}
-
-void ICACHE_FLASH_ATTR
-init_done_cb_init(void) {
-
-#ifdef SMARTCONFIG_ENABLE
-
-	/*
-	 * smartconfig_connect 只能在 init_done_cb_init 调用才正常
-	 * 先进行smartconfig，没有配网信息则自动连接上次的wifi
-	 */
-	smartconfig_connect(wifiConnectCb);
-
-#else	/* OR */
-
-	// 直接使用 WIFI_SSID 和 WIFI_PASS 宏定义连接wifi
-	wifi_connect(wifiConnectCb);
-
-#endif /* SMARTCONFIG_ENABLE */
-}
-
 void user_init(void) {
 	uart_init(BIT_RATE_74880, BIT_RATE_74880);
 	//uart_init(BIT_RATE_115200, BIT_RATE_115200);
-
-	// 计划在生成mqtt密码的时候使用sntp生成时间戳，目前暂时没用到
-	user_sntp_init();
 
 	// 测试 hmacmd5 生成mqtt passwrod
 	//test_hmac_md5();
@@ -207,8 +153,8 @@ void user_init(void) {
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
 	MQTT_OnData(&mqttClient, mqttDataCb);
 
-	//wifi_connect(wifiConnectCb);
-	system_init_done_cb(init_done_cb_init);
+	// 连接wifi
+	wifi_connect(wifiConnectCb);
 
 	INFO("\r\nSystem started ...\r\n");
 }
