@@ -55,7 +55,11 @@ eagle.irom0text.bin---->0x10000
 
 ![编译成功](screenshot/build_success.png)
 
+## 烧写bin
 
+这一步对新手来说可能坑比较多。可参考安信可的[烧写步骤](http://wiki.ai-thinker.com/esp_download#%E7%83%A7%E5%BD%95%E4%B8%8B%E8%BD%BD)，也可参考我[ESP8266-Demos](https://github.com/AngelLiang/ESP8266-Demos)仓库里的[wiki](https://github.com/AngelLiang/ESP8266-Demos/wiki/%E7%83%A7%E5%BD%95%E8%AF%B4%E6%98%8E)。
+
+对老手来说，平时怎么烧写就怎么烧写。
 
 ## 主要模块说明
 
