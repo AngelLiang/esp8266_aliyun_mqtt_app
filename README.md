@@ -17,12 +17,13 @@
 
 1. 首先到乐鑫[官网](https://www.espressif.com/zh-hans/products/hardware/esp8266ex/resources)或[github](https://github.com/espressif/ESP8266_NONOS_SDK)下载ESP8266_NONOS_SDK；
 2. 下载本仓库，然后拷贝`aliyun_mqtt_app`文件夹到SDK主目录，用法类似于`ESP8266_NONOS_SDK/examples`里面的工程；
-3. 最后导入工程即可（编译前建议先clean）。
+3. 最后在ESP8266 IDE里导入整个SDK即可，如果不熟悉该环境，参考[这里](http://wiki.ai-thinker.com/ai_ide_use)；
+4. 建议，build前建议先clean。
 
 ![project_list](screenshot/project_list.png)
 
 
-> 如果想试试用smartconfig配置wifi信息，可下载smartconfig分支。
+> 如果想试试用smartconfig配置Wi-Fi信息，可下载smartconfig分支。
 
 ## 配置信息
 
