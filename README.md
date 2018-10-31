@@ -9,7 +9,7 @@
 
 - Windows 10
 - [安信可 ESP 系列一体化开发环境](http://wiki.ai-thinker.com/ai_ide_install)（基于 Windows + Cygwin + Eclipse + GCC 的综合 IDE 环境）
-- ESP8266_NONOS_SDK-2.2.1（理论上支持SDK 2.0+）
+- ESP8266_NONOS_SDK-3.0.0
 - NodeMCU（ESP8266 4MB flash）
 
 
@@ -92,20 +92,6 @@ eagle.irom0text.bin---->0x10000
     因为源码文件编码默认为UTF-8，而Windows Eclipse IDE默认为GBK，所以可能需要设置一下：
 
     菜单栏Window -> Preferences -> General -> Workspace -> 面板Text file encoding -> 选择UTF-8 -> OK
-
-- 关于wifi连接的状态led灯（smartconfig分支）
-
-    本项目使用了GPIO0作为wifi状态led灯，移植本项目时请留意。
-
-    如果wifi连接成功，则保持led常亮（输出低电平）；否则进行闪烁。
-
-    可在这个位置进行引脚修改：`include/mqtt/wifi_config.h`
-
-    ```C
-    // ...
-    /* wifi led 引脚配置 */
-    #define WIFI_STATUS_LED_PIN         0
-    ```
 
 
 ## 串口打印效果图
@@ -190,7 +176,7 @@ MQTT: Disconnected
 
 ## 其他补充
 
-- 如果想要学习使用ESP8266 mqtt原始app，可以参考我这篇[博客](https://blog.csdn.net/yannanxiu/article/details/53088534)
+- 如果想要学习使用ESP8266官方的mqtt sample app（esp_mqtt_proj），可以参考我这篇[博客](https://blog.csdn.net/yannanxiu/article/details/53088534)
 - 安信可IDE开发环境资料：
   - 如何安装安信可一体化开发环境：http://wiki.ai-thinker.com/ai_ide_install
   - 如何使用安信可 ESP 系列一体化开发环境：http://wiki.ai-thinker.com/ai_ide_use
