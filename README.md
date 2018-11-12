@@ -9,7 +9,7 @@
 
 - Windows 10
 - [安信可 ESP 系列一体化开发环境](http://wiki.ai-thinker.com/ai_ide_install)（基于 Windows + Cygwin + Eclipse + GCC 的综合 IDE 环境）
-- ESP8266_NONOS_SDK-2.2.1（理论上支持SDK 2.0+）
+- ESP8266_NONOS_SDK-3.0.0
 - ESP8266 4MB(32Mbit) Flash
 
 
@@ -17,7 +17,26 @@
 
 1. 首先到乐鑫[官网](https://www.espressif.com/zh-hans/products/hardware/esp8266ex/resources)或[github](https://github.com/espressif/ESP8266_NONOS_SDK)下载ESP8266_NONOS_SDK；
 2. 下载本仓库，然后拷贝`aliyun_mqtt_app`文件夹到SDK主目录，用法类似于`ESP8266_NONOS_SDK/examples`里面的工程；
-3. 最后导入工程即可（编译前建议先clean）。
+3. 在ESP8266 IDE里导入整个SDK，如果不熟悉该环境，参考[这里](http://wiki.ai-thinker.com/ai_ide_use)；
+4. 使用SDKv3.0.0还需要修改该SDK的顶层Makefile。编辑器打开该SDK的顶层Makefile，找到下面配置变量，修改`SPI_SIZE_MAP`为4（如果是使用32Mbit Flash）。
+
+```Makefile
+# ...
+# 25行
+BOOT?=none
+APP?=0
+SPI_SPEED?=40
+SPI_MODE?=QIO
+SPI_SIZE_MAP?=4
+```
+
+如果不修改，后面编译会报下面错误：
+
+```
+#error "The flash map is not supported"
+```
+
+5. 最后编译下载即可（建议先clean）。
 
 ![project_list](screenshot/project_list.png)
 
